@@ -5,22 +5,22 @@ env:
   TEST_PYPI_API_TOKEN: ${{ secrets.TEST_PYPI_API_TOKEN }}
 jobs:
   release:
-  name: Release to TestPyPI
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.9
-    - name: Ensure pip is up to date
-      run: pip install -U pip
-    - name: Install wheel
-      run: pip install wheel
-    - name: Build package
-      run: python setup.py sdist bdist_wheel
-    - name: Publish to Test PyPI
-      uses: pypa/gh-action-pypi-publish@master
-      with:
-        password: ${{ env.TEST_PYPI_API_TOKEN }}
-        repository_url: https://test.pypi.org/legacy/
+    name: Release to TestPyPI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+      - name: Ensure pip is up to date
+        run: pip install -U pip
+      - name: Install wheel
+        run: pip install wheel
+      - name: Build package
+        run: python setup.py sdist bdist_wheel
+      - name: Publish to Test PyPI
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          password: ${{ env.TEST_PYPI_API_TOKEN }}
+          repository_url: https://test.pypi.org/legacy/
