@@ -1,6 +1,6 @@
 # netbox-plugin-azuread
 
-`netbox-plugin-azuread` is a plugin for the [https://docs.microsoft.com/en-us/windows-server/networking/technologies/ipam/ipam-top](IPAM) tool [Netbox](https://github.com/netbox-community/netbox).
+`netbox-plugin-azuread` is a plugin for the [IPAM](https://docs.microsoft.com/en-us/windows-server/networking/technologies/ipam/ipam-top) tool [Netbox](https://github.com/netbox-community/netbox).
 
 It uses Microsoft's [MSAL for Python](https://github.com/AzureAD/microsoft-authentication-library-for-python) library to add support for [Azure Active Directory](https://azure.microsoft.com/en-us/services/active-directory/) in the form of a [Netbox plugin](https://netbox.readthedocs.io/en/stable/plugins/).
 
