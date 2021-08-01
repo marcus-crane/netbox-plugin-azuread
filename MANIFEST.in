@@ -1,0 +1,8 @@
+include LICENSE
+include netbox_plugin_azuread/VERSION
+
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+
+recursive-include netbox_plugin_azuread/templates *.html
+recursive-include netbox_plugin_azuread/static *.css *.js *.jpg *.png *.gif
