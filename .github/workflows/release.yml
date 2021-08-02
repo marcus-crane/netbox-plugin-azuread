@@ -22,7 +22,6 @@ jobs:
       - name: Build package
         run: python setup.py sdist bdist_wheel
       - name: Publish to Test PyPI
-        if: github.event_name == 'prereleased' || github.event_name == 'released'
         uses: pypa/gh-action-pypi-publish@master
         with:
           password: ${{ env.TEST_PYPI_API_TOKEN }}
