@@ -1,5 +1,7 @@
 # netbox-plugin-azuread
 
+<strong>BEWARE:</strong> While this repo works and has been running in a production deployment for many months, I need to write some proper documentation. In the meantime, please feel free to file issues or ask questions.
+
 `netbox-plugin-azuread` is a plugin for the [IPAM](https://docs.microsoft.com/en-us/windows-server/networking/technologies/ipam/ipam-top) tool [Netbox](https://github.com/netbox-community/netbox).
 
 It uses Microsoft's [MSAL for Python](https://github.com/AzureAD/microsoft-authentication-library-for-python) library to add support for [Azure Active Directory](https://azure.microsoft.com/en-us/services/active-directory/) in the form of a [Netbox plugin](https://netbox.readthedocs.io/en/stable/plugins/).
@@ -39,13 +41,17 @@ In order to use the plugin, you'll need to provide a few inputs for it to functi
 Within the [PLUGINS_CONFIG](https://netbox.readthedocs.io/en/stable/configuration/optional-settings/#plugins_config) section of your configuration, you'll want to add a block like so:
 
 ``` shell
+PLUGINS = [
+  'netbox_plugin_azuread'
+]
 PLUGINS_CONFIG = {
-  'netbox-plugin-azuread': {
+  'netbox_plugin_azuread': {
     'CLIENT_ID': "<YOUR-CLIENT-ID-HERE>",
     'CLIENT_SECRET': "<YOUR-CLIENT-SECRET-HERE>",
     'AUTHORITY': "<YOUR-CLIENT-AUTHORITY-HERE>",
     'SCOPES': ['https://graph.microsoft.com/.default'],
     'AD_GROUP_MAP': {
+      'READ_ONLY': ['notallowed'],
       'STAFF': ['abc123', 'blahblah'],
       'SUPERUSER': ['blahadmin']
     }
