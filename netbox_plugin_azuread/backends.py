@@ -58,9 +58,9 @@ class AzureADRemoteUserBackend(RemoteUserBackend):
         user = User(
             username=username,
             password=password,
-            email=profile.get('mail'),
-            first_name=profile.get('givenName'),
-            last_name=profile.get('surname')
+            email=profile.get('mail', ''),
+            first_name=profile.get('givenName', ''),
+            last_name=profile.get('surname', '')
         )
         user.save()
         return user
