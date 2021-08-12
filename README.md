@@ -49,6 +49,8 @@ PLUGINS_CONFIG = {
     'CLIENT_ID': "<YOUR-CLIENT-ID-HERE>",
     'CLIENT_SECRET': "<YOUR-CLIENT-SECRET-HERE>",
     'AUTHORITY': "<YOUR-CLIENT-AUTHORITY-HERE>",
+    'LOGIN_URL': '<LOGIN-URL>',  # Should be /plugins/azuread/login/ unless you remap it using eg; nginx
+    'REPLY_URL': '<REPLY_URL>',  # Should be /plugins/azuread/complete/ unless you remap it using eg; nginx
     'SCOPES': ['https://graph.microsoft.com/.default'],
     'AD_GROUP_MAP': {
       'READ_ONLY': ['notallowed'],
