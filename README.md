@@ -77,6 +77,8 @@ REMOTE_AUTH_BACKEND = 'netbox_plugin_azuread.backends.AzureADRemoteUserBackend'
 REMOTE_AUTH_ENABLED = True
 ```
 
+Realistically, they're all required except for the `AD_GROUP_MAP` which is totally optional.
+
 ## Redirecting the login page
 
 Out of the box, you'll notice that `http://netbox.blah/login` still shows the usual login page. Due to the nature of this being a plugin and not a core part of Netbox, it lives under `/plugins/azuread` and can't overwrite Netbox URLs.
