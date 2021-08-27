@@ -67,7 +67,6 @@ PLUGINS_CONFIG = {
     'REPLY_URL': '<REPLY_URL>',  # Should be /plugins/azuread/complete/ unless you remap it using eg; nginx
     'SCOPES': ['https://graph.microsoft.com/.default'],
     'AD_GROUP_MAP': {
-      'READ_ONLY': ['notallowed'],
       'STAFF': ['abc123', 'blahblah'],
       'SUPERUSER': ['blahadmin']  # Set one or more Azure AD groups and users with this group will receive superuser/staff etc
     }
