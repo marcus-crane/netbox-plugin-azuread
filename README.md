@@ -68,7 +68,7 @@ PLUGINS_CONFIG = {
     'SCOPES': ['https://graph.microsoft.com/.default'],
     'AD_GROUP_MAP': {
       'STAFF': ['abc123', 'blahblah'],
-      'SUPERUSER': ['blahadmin']  # Set one or more Azure AD groups and users with this group will receive superuser/staff etc
+      'SUPERUSER': ['blahadmin']  # Set one or more Azure AD groups and users with this group will receive the superuser or staff flag
     }
   }
 }
@@ -131,3 +131,7 @@ This may seem a bit overkill just for one plugin but originally, nginx was requi
 While this project is open sourced with no guarantees, feel free to open an issue and I'll attempt to provide support as I can.
 
 ## Screenshots
+
+[![A slightly modified version of the Netbox login screen that shows two buttons. One is labelled Azure AD while the other is labelled Password](/docs/netbox-login.png)](/docs/netbox-login.png)
+
+[![The normal Netbox login screen showing a logged in user, who has been created via OAuth with Azure AD](/docs/netbox-profile.png)](/docs/netbox-profile.png)
