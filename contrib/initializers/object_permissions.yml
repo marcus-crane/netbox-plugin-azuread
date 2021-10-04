@@ -1,0 +1,9 @@
+all.ro: # Everyone in the READ_ONLY group will inherit the ability to read all object types
+  actions:
+    - view
+  description: 'Read only for all objects'
+  enabled: true
+  groups:
+    - READ_ONLY
+  object_types: all
+
