@@ -1,6 +1,6 @@
 # netbox-plugin-azuread
 
-[![Version](https://img.shields.io/badge/version-1.0.2-informational.svg)](https://pypi.org/project/netbox-plugin-azuread/)
+[![Version](https://img.shields.io/badge/version-1.1.0-informational.svg)](https://pypi.org/project/netbox-plugin-azuread/)
 
 A plugin for the [IPAM](https://docs.microsoft.com/en-us/windows-server/networking/technologies/ipam/ipam-top) tool [Netbox](github.com/netbox-community/netbox) to support OAuth2 authentication via [Azure Active Directory](https://azure.microsoft.com/en-us/services/active-directory/).
 
