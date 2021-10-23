@@ -1,13 +1,19 @@
 version: '3.6'
 services:
-  netbox:
+  nginx:
+    image: nginx
+    depends_on:
+      - netbox
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    command: [nginx-debug, '-g', 'daemon off;']
+  netbox: &netbox
     build:
       context: ../
       dockerfile: develop/Dockerfile
-    ports:
-      - '8080:8080'
-    env_file:
-      - ./dev.env
+    env_file: env/netbox.env
     volumes:
       - ./config:/etc/netbox/config:z,ro
     depends_on:
@@ -15,13 +21,7 @@ services:
       - postgres
       - redis
   netbox-worker:
-    build:
-      context: ../
-      dockerfile: develop/Dockerfile
-    env_file:
-      - ./dev.env
-    volumes:
-      - ./config:/etc/netbox/config:z,ro
+    <<: *netbox
     depends_on:
       - redis
       - postgres
@@ -29,23 +29,16 @@ services:
       - /opt/netbox/venv/bin/python
       - /opt/netbox/netbox/manage.py
       - rqworker
-  netbox-housekeeping:
-    build:
-      context: ../
-      dockerfile: develop/Dockerfile
-    env_file:
-      - ./dev.env
-    volumes:
-      - ./config:/etc/netbox/config:z,ro
-    depends_on:
-      - redis
-      - postgres
-    command:
-      - /opt/netbox/housekeeping.sh
+  # netbox-housekeeping:
+  #   <<: *netbox
+  #   depends_on:
+  #     - redis
+  #     - postgres
+  #   command:
+  #     - /opt/netbox/housekeeping.sh
   postgres:
     image: postgres:13-alpine
-    env_file:
-      - ./dev.env
+    env_file: env/postgres.env
     volumes:
       - netbox-postgres-data:/var/lib/postgresql/data
   redis:
@@ -54,10 +47,16 @@ services:
       - sh
       - -c  # this is to evaluate the $REDIS_PASSWORD from the env
       - redis-server --appendonly yes --requirepass $$REDIS_PASSWORD  ## $$ because of docker-compose
-    env_file:
-      - ./dev.env
+    env_file: env/redis.env
     volumes:
       - netbox-redis-data:/data
+  redis-cache:
+    image: redis:6-alpine
+    command:
+    - sh
+    - -c # this is to evaluate the $REDIS_PASSWORD from the env
+    - redis-server --requirepass $$REDIS_PASSWORD ## $$ because of docker-compose
+    env_file: env/redis-cache.env
 
 volumes:
   netbox-postgres-data:
