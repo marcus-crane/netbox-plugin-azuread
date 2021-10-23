@@ -28,7 +28,7 @@ jobs:
       with:
         url: 'http://localhost:8000/'
         responseCode: 200
-        timeout: 60000
+        timeout: 180000
         interval: 5000
 
     - name: Run Testcafe tests
