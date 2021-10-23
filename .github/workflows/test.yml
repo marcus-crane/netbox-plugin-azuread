@@ -1,0 +1,41 @@
+name: End to end testing
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  docker:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Build plugin container
+      run: make build
+
+    - name: Start containers
+      run: make up
+
+    - name: Wait for Netbox to start up fully
+      uses: nev7n/wait_for_response@v1
+      with:
+        url: 'http://localhost:8000/'
+        responseCode: 200
+        timeout: 60000
+        interval: 5000
+
+    - name: Run Testcafe tests
+      uses: DevExpress/testcafe-action@latest
+      with:
+        args: "chrome e2e/**.js"
+
+    - name: Stop containers
+      if: always()
+      run: make down
