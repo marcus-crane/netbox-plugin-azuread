@@ -18,4 +18,5 @@ build:
 
 test:
 	docker pull testcafe/testcafe
-	docker run -it --net=host --mount type=bind,source=$(shell pwd)/${TESTCAFE_FOLDER},target=/tests testcafe/testcafe ${TESTCAFE_ARGS}
+	# We don't use -it here as this also runs within the CI pipeline (which is not a TTY)
+	docker run -i --net=host --mount type=bind,source=$(shell pwd)/${TESTCAFE_FOLDER},target=/tests testcafe/testcafe ${TESTCAFE_ARGS}
