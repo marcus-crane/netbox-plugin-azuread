@@ -23,10 +23,12 @@ jobs:
     - name: Start containers
       run: make up
 
+    - name: Wait for a minute for Netbox to boot
+      run: sleep 60s
+      shell: bash
+
     - name: Run Testcafe tests
-      uses: DevExpress/testcafe-action@latest
-      with:
-        args: "chrome e2e/**.js"
+      run: make test
 
     - name: Stop containers
       if: always()
