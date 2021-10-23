@@ -24,7 +24,7 @@ jobs:
       run: make up
 
     - name: Wait for a minute for Netbox to boot
-      run: sleep 60s
+      run: sleep 120s
       shell: bash
 
     - name: Run Testcafe tests
