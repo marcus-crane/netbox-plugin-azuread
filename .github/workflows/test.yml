@@ -1,0 +1,35 @@
+name: End to end testing
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  docker:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Build plugin container
+      run: make build
+
+    - name: Start containers
+      run: make up
+
+    - name: Wait for a minute for Netbox to boot
+      run: sleep 120s
+      shell: bash
+
+    - name: Run Testcafe tests
+      run: make test
+
+    - name: Stop containers
+      if: always()
+      run: make down

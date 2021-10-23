@@ -2,6 +2,8 @@ NETBOX_VER=3.0.0
 
 COMPOSE_FILE=./develop/docker-compose.yml
 BUILD_NAME=netbox_plugin_azuread
+TESTCAFE_FOLDER=e2e
+TESTCAFE_ARGS=firefox "/tests/*.js"
 
 up:
 	@echo "Starting Netbox"
@@ -13,3 +15,8 @@ down:
 
 build:
 	docker-compose -f ${COMPOSE_FILE} -p ${BUILD_NAME} build --build-arg NETBOX_VER=${NETBOX_VER}
+
+test:
+	docker pull testcafe/testcafe
+	# We don't use -it here as this also runs within the CI pipeline (which is not a TTY)
+	docker run -i --net=host --mount type=bind,source=$(shell pwd)/${TESTCAFE_FOLDER},target=/tests testcafe/testcafe ${TESTCAFE_ARGS}
