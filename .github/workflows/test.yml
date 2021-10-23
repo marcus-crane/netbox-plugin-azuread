@@ -23,8 +23,18 @@ jobs:
     - name: Start containers
       run: make up
 
-    - name: Run testcafe
-      run: make test
+    - name: Wait for Netbox to start up fully
+      uses: nev7n/wait_for_response@v1
+      with:
+        url: 'http://localhost:8000/'
+        responseCode: 200
+        timeout: 60000
+        interval: 5000
+
+    - name: Run Testcafe tests
+      uses: DevExpress/testcafe-action@latest
+      with:
+        args: "chrome e2e/**.js"
 
     - name: Stop containers
       if: always()
