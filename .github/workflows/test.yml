@@ -30,7 +30,7 @@ jobs:
     - name: Run tests
       uses: DevExpress/testcafe-action@latest
       with:
-          args: "chrome e2e"
+          args: "chrome e2e -s takeOnFails=true -q -c 3"
 
     - name: Stop containers
       if: always()
