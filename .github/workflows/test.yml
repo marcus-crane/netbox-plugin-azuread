@@ -27,8 +27,10 @@ jobs:
       run: sleep 120s
       shell: bash
 
-    - name: Run Testcafe tests
-      run: make test
+    - name: Run tests
+      uses: DevExpress/testcafe-action@latest
+      with:
+          args: "chrome e2e"
 
     - name: Stop containers
       if: always()
