@@ -32,6 +32,13 @@ jobs:
       with:
           args: "chrome e2e -s takeOnFails=true -q -c 3"
 
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Upload failure screenshots
+        path: |
+          **/*.png
+
     - name: Stop containers
       if: always()
       run: make down
