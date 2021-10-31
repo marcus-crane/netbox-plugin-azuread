@@ -79,6 +79,10 @@ REMOTE_AUTH_ENABLED = True
 
 Realistically, they're all required except for the `AD_GROUP_MAP` which is totally optional.
 
+## Setting up group claims
+
+This section is intended to be fleshed out in future but for now, if you're having trouble with configuring group claims, check out [Issue #3](https://github.com/marcus-crane/netbox-plugin-azuread/issues/3).
+
 ## Redirecting the login page
 
 Out of the box, you'll notice that `http://netbox.blah/login` still shows the usual login page. Due to the nature of this being a plugin and not a core part of Netbox, it lives under `/plugins/azuread` and can't overwrite Netbox URLs.
