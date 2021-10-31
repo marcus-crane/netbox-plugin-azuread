@@ -217,11 +217,22 @@ NAPALM_ARGS = {}
 PAGINATE_COUNT = int(environ.get("PAGINATE_COUNT", 50))
 
 # Enable installed plugins. Add the name of each plugin to the list.
-PLUGINS = []
+PLUGINS = [
+    'netbox_plugin_azuread'
+]
 
 # Plugins configuration settings. These settings are used by various plugins that the user may have installed.
 # Each key in the dictionary is the name of an installed plugin and its value is a dictionary of settings.
-PLUGINS_CONFIG = {}
+PLUGINS_CONFIG = {
+    'netbox_plugin_azuread': {
+        'CLIENT_ID': environ.get("CLIENT_ID"),
+        'CLIENT_SECRET': environ.get('CLIENT_SECRET'),
+        'AUTHORITY': environ.get("AUTHORITY"),
+        'LOGIN_URL': 'http://localhost:8000/login/',
+        'REPLY_URL': 'http://localhost:8000/complete/',
+        'SCOPES': ['https://graph.microsoft.com/.default']
+    }
+}
 
 # When determining the primary IP address for a device, IPv6 is preferred over IPv4 by default. Set this to True to
 # prefer IPv4 instead.
