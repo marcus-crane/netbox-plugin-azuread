@@ -1,6 +1,6 @@
 # netbox-plugin-azuread
 
-[![Version](https://img.shields.io/badge/version-1.1.0-informational.svg)](https://pypi.org/project/netbox-plugin-azuread/)
+[![Version](https://img.shields.io/badge/version-1.1.2-informational.svg)](https://pypi.org/project/netbox-plugin-azuread/)
 
 A plugin for the [IPAM](https://docs.microsoft.com/en-us/windows-server/networking/technologies/ipam/ipam-top) tool [Netbox](github.com/netbox-community/netbox) to support OAuth2 authentication via [Azure Active Directory](https://azure.microsoft.com/en-us/services/active-directory/).
 
@@ -81,7 +81,15 @@ Realistically, they're all required except for the `AD_GROUP_MAP` which is total
 
 ## Setting up group claims
 
-This section is intended to be fleshed out in future but for now, if you're having trouble with configuring group claims, check out [Issue #3](https://github.com/marcus-crane/netbox-plugin-azuread/issues/3).
+Getting groups flowing through can trip up some users so it's important that the Azure Service Principal you're using has the correct permissions.
+
+At present, the bare minimum configuration is a service principal with the `Directory.Read.All` permission of type `Application`.
+
+Either yourself or someone authorised to view Azure Active Directory should be able to verify this under Enterprise Applications -> **your sp** -> API Permissions tab. It should look like the following:
+
+[![A screenshot of the Microsoft Azure UI, showing the Azure Active Directory section. A service principle called sports is visible and the API permissions can be seen listed. A single permission called Directory.Read.All is enabled with the type of Application.](/docs/azure-permissions.png)](/docs/azure-permissions.png)
+
+You can also read a bit more about this in [issue #3](https://github.com/marcus-crane/netbox-plugin-azuread/issues/3).
 
 ## Redirecting the login page
 
