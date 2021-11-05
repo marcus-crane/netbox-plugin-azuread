@@ -18,13 +18,21 @@ LOGGER.info("Initialising Netbox AzureAD plugin")
 class NetboxAzureADConfig(PluginConfig):
     name = 'netbox_plugin_azuread'
     verbose_name = 'AzureAD for Netbox'
-    description = 'Hello world!'
+    description = 'Authenticate with Netbox via AzureAD'
     version = VERSION
     author = 'Marcus Crane'
     author_email = 'marcus@utf9k.net'
     base_url = 'azuread'
-    required_settings = []
-    default_settings = {}
+    required_settings = [
+        'CLIENT_ID',
+        'CLIENT_SECRET',
+        'AUTHORITY',
+    ]
+    default_settings = {
+        'LOGIN_URL': '/plugins/azuread/login/',
+        'REPLY_URL': '/plugins/azuread/complete/',
+        'SCOPES': ['https://graph.microsoft.com/.default']
+    }
 
 
 config = NetboxAzureADConfig
