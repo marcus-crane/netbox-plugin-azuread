@@ -108,10 +108,10 @@ class AzureADRemoteUserBackend(RemoteUserBackend):
                     reader_group, _ = Group.objects.get_or_create(name='READ_ONLY')
                     reader_group.user_set.add(user)
                 if group_name in AD_GROUP_MAP.get('STAFF', []):
-                    LOGGER.info(f"Delegated staff permission to f{user.email}")
+                    LOGGER.info(f"Delegated staff permission to {user.email}")
                     user.is_staff = True
                 if group_name in AD_GROUP_MAP.get('SUPERUSER', []):
-                    LOGGER.info(f"Delegated superuser permission to f{user.email}")
+                    LOGGER.info(f"Delegated superuser permission to {user.email}")
                     user.is_superuser = True
                     user.is_staff = True
             for group in Group.objects.all():
