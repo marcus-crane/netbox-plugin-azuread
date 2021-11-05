@@ -8,9 +8,11 @@ with open(
 ) as file:
     VERSION = file.read().strip()
 
-LOGGER = logging.getLogger("netbox_plugin_azuread")
+LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
+logging.basicConfig(level=LOGLEVEL)
 
-LOGGER.error("Initialising Netbox AzureAD plugin")
+LOGGER = logging.getLogger("netbox_plugin_azuread")
+LOGGER.info("Initialising Netbox AzureAD plugin")
 
 
 class NetboxAzureADConfig(PluginConfig):

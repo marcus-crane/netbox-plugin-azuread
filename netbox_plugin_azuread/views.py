@@ -1,4 +1,5 @@
 import logging
+import os
 import uuid
 
 from django.conf import settings
@@ -8,6 +9,8 @@ from django.shortcuts import redirect, render
 from .backends import AzureADRemoteUserBackend
 
 LOGGER = logging.getLogger("netbox_plugin_azuread")
+LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
+logging.basicConfig(level=LOGLEVEL)
 PLUGIN_SETTINGS = settings.PLUGINS_CONFIG["netbox_plugin_azuread"]
 
 ERROR_MAP = {
@@ -51,37 +54,47 @@ def login(request):
 
 def authorize(request):
 
+    LOGGER.debug("Received a call to authorize")
+
     if request.user.is_authenticated:
         messages.success(request, ERROR_MAP['ALREADY_AUTHED'])
+        LOGGER.debug("User is already authenticated. Redirecting to login URL.")
         return redirect(PLUGIN_SETTINGS['LOGIN_URL'])
 
     auth_backend = AzureADRemoteUserBackend()
 
     if not request.GET.get('code', False):
         messages.warning(request, ERROR_MAP['MISSING_AUTH_CODE'])
+        LOGGER.error("Received a request missing an authorisation code")
         return redirect(PLUGIN_SETTINGS['LOGIN_URL']) # TODO: Should use view name but having issues
 
     try:
         redirect_url = request.build_absolute_uri(PLUGIN_SETTINGS['REPLY_URL'])
-    except KeyError:
+    except KeyError as ex:
         messages.warning(request, ERROR_MAP['MISSING_COMPLETE_URL'])
+        LOGGER.debug(f"Failed to build a reply URL: {ex}")
         return redirect(PLUGIN_SETTINGS['LOGIN_URL'])
 
     auth_result = auth_backend.acquire_user_token(request, redirect_uri=redirect_url)
     if not auth_result:
         messages.error(request, ERROR_MAP['USER_TOKEN_FAILURE'])
+        LOGGER.debug("Failed to acquire a token for the user")
         return redirect(PLUGIN_SETTINGS['LOGIN_URL'])
 
     user = auth_backend.retrieve_user(auth_result)
     if not user:
         messages.error(request, ERROR_MAP['ACCOUNT_CREATION_FAILED'])
+        LOGGER.debug("Failed to retrieve the user's details")
         return redirect(PLUGIN_SETTINGS['LOGIN_URL'])
 
     try:
+        LOGGER.debug("Attempting to log the user in")
         auth_backend.login(request, user)
-    except Exception:
+    except Exception as ex:
         messages.error(request, ERROR_MAP['ACCOUNT_LOGIN_FAILED'])
+        LOGGER.debug(f"Failed to log the user in: {ex}")
         return redirect(PLUGIN_SETTINGS['LOGIN_URL'])
 
     next_url = request.session.get('next_url', '/')
+    LOGGER.debug(f"Redirecting to {next_url}")
     return redirect(next_url)
