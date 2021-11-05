@@ -1,0 +1,27 @@
+{% extends "admin/login.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet"
+    href="/static/css/base.css?v2.10.5-dev"
+    onerror="window.location='/media-failure/?filename=css/base.css'">
+  <link rel="icon" type="image/png" href="/static/img/netbox.ico" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  {{ form.media }}
+{% endblock %}
+
+{% block content %}
+
+<h1>Please pick an authentication method</h1>
+<div>
+  <a href="{{ auth_url }}">
+    <button class="button" type="button">Azure AD</button>
+  </a>
+  <a href="/admin/login/">
+    <button class="button" type="button">Password</button>
+  </a>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+{% endblock %}

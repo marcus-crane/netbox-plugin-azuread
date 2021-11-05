@@ -22,6 +22,12 @@ ERROR_MAP = {
     'USER_TOKEN_FAILURE': 'Failed to acquire a user token.'
 }
 
+NETBOX_VERSION = settings.VERSION
+
+LOGIN_TEMPLATE = 'azure/login.html'
+if NETBOX_VERSION.startswith('2.'):
+    LOGIN_TEMPLATE = 'azure/login_2.x.html'
+
 
 def login(request):
     context = {
@@ -38,7 +44,7 @@ def login(request):
         messages.warning(request, ERROR_MAP['MISSING_COMPLETE_URL'])
         return render(
             request,
-            "azure/login.html",
+            LOGIN_TEMPLATE,
             context=context
         )
 
@@ -47,7 +53,7 @@ def login(request):
 
     return render(
         request,
-        "azure/login.html",
+        LOGIN_TEMPLATE,
         context
     )
 
