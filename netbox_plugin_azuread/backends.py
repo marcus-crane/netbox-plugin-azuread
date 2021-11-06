@@ -99,6 +99,9 @@ class AzureADRemoteUserBackend(RemoteUserBackend):
             azure_group_names = [entry.get('displayName') for entry in azure_groups]
             AD_GROUP_MAP = PLUGIN_SETTINGS.get('AD_GROUP_MAP', {})
             for group_name in azure_group_names:
+                if group_name not in PLUGIN_SETTINGS['AD_GROUP_FILTER']:
+                    LOGGER.debug(f"Skip create group {group_name}")
+                    continue
                 group, _ = Group.objects.get_or_create(
                     name=group_name
                 )
