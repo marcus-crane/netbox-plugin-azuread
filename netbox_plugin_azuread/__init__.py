@@ -31,7 +31,9 @@ class NetboxAzureADConfig(PluginConfig):
     default_settings = {
         'LOGIN_URL': '/plugins/azuread/login/',
         'REPLY_URL': '/plugins/azuread/complete/',
-        'SCOPES': ['https://graph.microsoft.com/.default']
+        'SCOPES': ['https://graph.microsoft.com/.default'],
+        'AD_GROUP_MAP': [],
+        'AD_GROUP_FILTER': [],
     }
 
 

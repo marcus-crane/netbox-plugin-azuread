@@ -98,9 +98,10 @@ class AzureADRemoteUserBackend(RemoteUserBackend):
             LOGGER.debug(f"This user is part of {len(azure_groups)} azure groups")
             azure_group_names = [entry.get('displayName') for entry in azure_groups]
             AD_GROUP_MAP = PLUGIN_SETTINGS.get('AD_GROUP_MAP', {})
+            AD_GROUP_FILTER = PLUGIN_SETTINGS.get('AD_GROUP_FILTER', [])
             for group_name in azure_group_names:
-                if group_name not in PLUGIN_SETTINGS['AD_GROUP_FILTER']:
-                    LOGGER.debug(f"Skip create group {group_name}")
+                if AD_GROUP_FILTER and group_name not in AD_GROUP_FILTER:
+                    LOGGER.debug(f"Skipping group creation for {group_name} due to AD_GROUP_FILTER")
                     continue
                 group, _ = Group.objects.get_or_create(
                     name=group_name
@@ -121,6 +122,10 @@ class AzureADRemoteUserBackend(RemoteUserBackend):
                 if group.name not in azure_group_names:  # ensure that deleted groups are cleaned up
                     LOGGER.info(f"Removed {user.email} from {group.name}")
                     group.user_set.remove(user)
+                if AD_GROUP_FILTER and group.name not in AD_GROUP_FILTER:
+                    result, _ = Group.objects.filter(name=group.name).delete()
+                    if result:
+                        LOGGER.debug(f"Deleted {group.name} as it isn't defined in AD_GROUP_FILTER")
         user.save() # it would be wasteful to save every time if there are say; 1000 admin groups configured
         return user
 

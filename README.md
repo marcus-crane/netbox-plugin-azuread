@@ -69,7 +69,12 @@ PLUGINS_CONFIG = {
     'AD_GROUP_MAP': {
       'STAFF': ['abc123', 'blahblah'],
       'SUPERUSER': ['blahadmin']  # Set one or more Azure AD groups and users with this group will receive the superuser or staff flag
-    }
+    },
+    'AD_GROUP_FILTER': [ # Only import those groups listsm otherwise if empty, import all Azure groups
+        'abc123',
+        'blahblah',
+        'blahadmin'
+    ]
   }
 }
 REMOTE_AUTH_AUTO_CREATE_USER = True
@@ -77,7 +82,20 @@ REMOTE_AUTH_BACKEND = 'netbox_plugin_azuread.backends.AzureADRemoteUserBackend'
 REMOTE_AUTH_ENABLED = True
 ```
 
-Realistically, they're all required except for the `AD_GROUP_MAP` which is totally optional.
+Here is a basic breakdown of each one:
+
+| Name | Example | Notes | Required |
+| ---- | ------- | ----- | -------- |
+| CLIENT_ID | `abc123` | The [client id](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-client-application-configuration#client-id) for your Azure AD service principle | Yes |
+| CLIENT_SECRET | `abc123` | The [client secret](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-client-application-configuration#client-secret) for your Azure AD service principle | Yes |
+| AUTHORITY | `https://login.microsoftonline.com/abc123` | The [authority](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-client-application-configuration#authority) for your Azure AD service principle | Yes |
+| LOGIN_URL | `/plugins/azuread/login/` | The [login URL](https://docs.microsoft.com/en-us/azure/app-service/configure-authentication-provider-aad) to display the custom login page under | No |
+| REPLY_URL | `/plugins/azuread/complete/` | The [reply URL](https://docs.microsoft.com/en-us/azure/active-directory/develop/reply-url) to receive Azure AD OAuth callbacks on | No |
+| SCOPES | `['https://graph.microsoft.com/.default']` | The scopes to use. [The default Graph scope](https://docs.microsoft.com/en-us/graph/auth-v2-service#4-get-an-access-token) should be fine as it passes through all pre-configured permissions | No |
+| AD_GROUP_MAP | `{'SUPERUSER: ['abc123']}` | A dictionary where keys are privileges and values are lists of groups to inherit those privileges | No |
+| AD_GROUP_FILTER | `['abc123']` | A list of groups to be *explicitly* included so you don't import hundreds of irrelevant AD groups. Leaving it blank will import all groups. | No |
+
+As depicted above, only `CLIENT_ID`, `CLIENT_SECRET` and `AUTHORITY` are explicitly required. `LOGIN_URL`, `REPLY_URL` and `SCOPES` will default to the above URLs. You'll probably want to make use of the `AD_GROUP_MAP` and `AD_GROUP_FILTER` but they are also optional.
 
 ## Setting up group claims
 
