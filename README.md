@@ -1,5 +1,10 @@
 # netbox-plugin-azuread
 
+> This plugin is not actively maintained for two reasons:
+> 1) Netbox has since added [official support for Azure AD SSO](https://docs.netbox.dev/en/stable/administration/authentication/microsoft-azure-ad/) by way of the Django Social Auth library.
+> 2) I don't use Netbox anymore. My previous employer used it but I no longer work there.
+> You're still welcome to use it, fork it etc but I won't be personally providing any support going forward.
+
 A plugin for the [IPAM](https://docs.microsoft.com/en-us/windows-server/networking/technologies/ipam/ipam-top) tool [Netbox](github.com/netbox-community/netbox) to support OAuth2 authentication via [Azure Active Directory](https://azure.microsoft.com/en-us/services/active-directory/).
 
 `netbox-plugin-azuread` is effectively a light wrapper around Microsoft's own [`msal`](https://github.com/AzureAD/microsoft-authentication-library-for-python) library with the added ability to map AzureAD groups to Django permissions.
