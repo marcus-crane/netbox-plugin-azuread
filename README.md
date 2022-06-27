@@ -3,7 +3,10 @@
 > This plugin is not actively maintained for two reasons:
 > 1) Netbox has since added [official support for Azure AD SSO](https://docs.netbox.dev/en/stable/administration/authentication/microsoft-azure-ad/) by way of the Django Social Auth library.
 > 2) I don't use Netbox anymore. My previous employer used it but I no longer work there.
+>
 > You're still welcome to use it, fork it etc but I won't be personally providing any support going forward.
+>
+> I prefer to archive this repo and craft a clear notice rather than give the illusion of free support if you're evaluating this plugin.
 
 A plugin for the [IPAM](https://docs.microsoft.com/en-us/windows-server/networking/technologies/ipam/ipam-top) tool [Netbox](github.com/netbox-community/netbox) to support OAuth2 authentication via [Azure Active Directory](https://azure.microsoft.com/en-us/services/active-directory/).
 
